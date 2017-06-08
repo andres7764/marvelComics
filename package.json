@@ -1,0 +1,11 @@
+{
+	"name": "MarvelSearcEengine",
+	"author":"Andrés Valenzuela",
+	"Description": "SPA for search easy the comics of your favorite's heroes",
+	"script": {
+		"start":"nodejs index.js"
+	},
+	"dependencies": {
+	  "express": "*"
+	}
+}
