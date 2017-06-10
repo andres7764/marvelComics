@@ -1,0 +1,78 @@
+  <div class="row begin">
+	<div class="col-md-3 col-lg-3">
+	  <div class="logo size"></div>
+	</div>
+	<div class="col-xs-12 col-md-6 col-lg-6">
+		<md-input-container>
+        <label>Busca tu superheroe </label>
+        	<input ng-model="responses.search" ng-change="searchHero()" placeholder="P.e Spider-man">
+      </md-input-container>
+	 </div>
+	<div class="col-md-3 col-lg-3">
+	 <div class="profile size"></div>
+	</div>
+  </div>
+  <div ng-repeat="values in responses.results" class="container">
+	  <div class="row" style="display: block">
+		<div class="col-md-3 col-lg-3"></div>
+		<div class="col-xs-12 col-md-6 col-lg-6">
+		  <p class="pSearch" id="{{values.id}}" ng-click="getInfoHeroById(this)">{{values.name}}</p>
+		 </div>
+		<div class="col-md-3 col-lg-3"></div>
+	  </div>
+  </div>
+  <!-- Init container -->
+  <div class="container-fluid">
+	  <div class="row">
+		<div class="col-lg-9 col-md-9 col-xs-12 body">
+			<div class="row">
+			 <div class="col-lg-9 col-md-9 col-xs-6 body">
+			   <div class="iconHero"></div><h3><b>Characters</b></h3>
+			 </div>
+			<div class="col-lg-3 col-md-3 col-xs-6 body">
+			   <md-input-container>
+		        <label>Sort by</label>
+		        <md-select ng-model="responses.filter" md-selected-text="getSelectedText()">
+		            <md-option ng-value="default" checked>Sort by</md-option>
+		            <md-option ng-value="AZ">Ascendent A-Z</md-option>
+		            <md-option ng-value="ZA">Descendent Z-A</md-option>
+		        </md-select>
+		      </md-input-container>
+			</div>
+		  </div>
+			<div class="row">
+				<div ng-repeat="values in responses.catalog" class="containerCatalog col-md-5 col-lg-5 col-xs-12">
+				 <div style="float: left; width: 30%">
+				  <img class="imgCatalog" src="{{values.thumbnail.path}}.{{values.thumbnail.extension}}">
+				 </div>
+				  <div class="containerInsideView">
+					<h4><b>{{values.name}}</b></h4>
+					<p >{{values.description}}</p>
+					<p ng-if="values.description == ''">In this moment this Hero not have an available description yet</p>
+				  </div>
+				  <md-button class="md-raised md-warn btnBG" ng-click="checkHero('{{values.id}}')">View more</md-button>
+				  	<h4><b style="padding-left: 6px">Related comics</b></h4>
+				  	<div class="related" ng-repeat="comics in values.comics.items | limitTo:4">{{comics.name}}</div>
+				</div>
+			</div>
+		  </div>
+		<div class="col-lg-3 col-md-3 col-xs-12 bodyA">
+			<div class="iconFavorites"></div><h3 style="text-align: center"><b>My favourites</b></h3>
+			<div>
+				
+			</div>
+		</div>
+	  </div>
+  	</div>
+  	<div class="row">
+  		<div class="col-md-12 col-lg-12">
+  			 <div data-pagination="" data-num-pages="numPages()" 
+		      data-current-page="currentPage" data-max-size="maxSize"  
+		      data-boundary-links="true"></div>
+  		</div>
+  	</div>
+	<div>
+		resultados:
+	<div >
+	</div>
+   </div>

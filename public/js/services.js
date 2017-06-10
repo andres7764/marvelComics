@@ -8,23 +8,52 @@
 
   .service('conectionApi',getllRequests)
 
-
   function getllRequests($http,$q,getConstants) {
   	return {
-  		getSuperHero : function(){
-  			var deferred = $q.defer();
+  		getSuperHero : function(word){
+  			let deferred = $q.defer();
   			$http({ 
   				method: 'GET',
-  				url: 'https://gateway.marvel.com:443/v1/public/characters?apikey='+getConstants.APITOKEN
+  				url: 'https://gateway.marvel.com:443/v1/public/characters?apikey='+getConstants.APITOKEN+'&nameStartsWith='+word+'&limit=10'
+
   			})
   			.then(function(response){
-  				deferred.resolve(response);
+  				deferred.resolve(response.data);
   			})
   			.catch(function(err){
   				deferred.reject(err.data);
   			})
   			return deferred.promise;
-  		}
+  		},
+  		searchCharacters: function(){
+  			let random = Math.floor(Math.random()*100);
+  			let deferred = $q.defer();
+  			$http({
+  				method: 'GET',
+  				url: 'https://gateway.marvel.com:443/v1/public/characters?orderBy=name&limit=10&offset='+random+'&apikey='+getConstants.APITOKEN
+  			})
+  			.then(function(response){
+  				deferred.resolve(response.data);
+  			})
+  			.catch(function(err){
+  				deferred.reject(err.data);
+  			})
+  			return deferred.promise;
+  		},
+/*  		getInfoHeroById: function(data){
+  			let deferred = $q.defer();
+  			$http({
+  			  method: 'GET',
+  			  url: 'https://gateway.marvel.com:443/v1/public/characters/'+data+'/comics?apikey='+getConstants.APITOKEN
+  			})
+  			.then(function(response){
+  				deferred.resolve(response.data);
+  			})
+  			.catch(function(err){
+  				deferred.reject(err.data);
+  			})
+  			return deferred.promise;
+  		} */
   	}
   }
 
