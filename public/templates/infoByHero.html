@@ -1,32 +1,28 @@
-<md-dialog aria-label="{{heroInfo.name}}" ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools color">
-        <h2>{{heroInfo.name}}</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          <img src="../img/icons/btn.png" aria-label="Close Option"/>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-dialog-content>
+<md-dialog aria-label="{{comicInfo.name}}" class="sizeM">
+    <div class="closeBtn" ng-click="closeModal()"></div>
+    <md-dialog-content class="align">
       <div class="row">
-        <div class="col-lg-4 col-md-4">
-          <img class="imgModal" src="{{heroInfo.thumbnail.path}}.{{heroInfo.thumbnail.extension}}">
+        <div class="col-lg-4 col-md-4 col-xs-12">
+          <img class="imgModal" src="{{comicInfo.thumbnail.path}}.{{comicInfo.thumbnail.extension}}">
         </div>
-        <div class="col-lg-8 col-md-8">
+        <div class="left col-lg-7 col-md-7 col-xs-12">
             <div class="md-dialog-content">
-              <h2><b>Description</b></h2>
-              <p>{{heroInfo.description}}</p>
-              <p ng-if="heroInfo.description == ''">In this moment this Hero not have an available description yet</p>
+              <h2><b>{{comicInfo.title}}</b></h2>
+              <p>{{comicInfo.description}}</p>
+              <p ng-if="comicInfo.description == '' || comicInfo.description == null">In this moment this comic not have an available description yet</p>
             </div>
         </div>
       </div>
-      <div class="row">
-      <h3 style="padding-left:30px"><b>Comics available:</b></h3>
-        <div ng-repeat="comics in heroInfo.comics.items" class="col-md-6 col-lg-6 col-xs-6">
-          <p> {{comics.name}} </p>
-        </div>
-      </div>
     </md-dialog-content>
-
+  <div class="footer">
+    <div id="favourites" class="btns addFa" ng-click="addFavourites()">
+      <div id="favouris" class="iconFa"></div>
+      <div class="textDiv"><b> ADD TO FAVOURITES</b></div>
+    </div>
+    <div class="btns buy"> 
+      <div class="iconCart"></div>
+      <div class="textDiv"><b> BUY FOR ${{comicInfo.price}} </b></div>
+    </div>
+  </div>
+  </md-dialog-actions>
 </md-dialog>

@@ -1,60 +1,130 @@
+(function(){
 angular.module('controllers',[])
 
-.controller('catalogCtrl',function($scope,conectionApi,$mdDialog){
+.controller('catalogCtrl',function($rootScope,$scope,conectionApi,$mdDialog,$timeout){
 	let data;
 	let infoModal;
+
 	$scope.responses = {};
-	conectionApi.searchCharacters().then(getCatalog).catch(getErrorCatalog);
+	$rootScope.comicsSaved = (localStorage.getItem('comics') !== null)? localStorage.getItem('comics') : [];
+	
+	showSections(1);
+	conectionApi.searchCharacters().then(getCatalog).catch(getErrors);
+
+	$scope.showProfile = function(ev){
+	 $mdDialog.show({
+      controller: profileController,
+      templateUrl: 'dialog1.tmpl.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	    })
+	    .then(function(answer) {
+	      $scope.status = 'You said the information was "' + answer + '".';
+	    }, function() {
+	      $scope.status = 'You cancelled the dialog.';
+	    });
+	}
 
 	$scope.searchHero = function(){
-	  if($scope.responses.search.length > 2)
+	  $scope.responses.show = false;
+	  if($scope.responses.search.length > 2) {
 		conectionApi.getSuperHero($scope.responses.search).then(getResults).catch(getErrors)
+	  	$scope.responses.show = true;
+	  } else {
+	  	$scope.responses.show = false;
+	  }
 	}
 
-	$scope.getInfoHeroById = function(data){
-		let iterator = $scope.responses.results;
+	$scope.getInfoHeroById = function(data,op){
+		$scope.responses.show = false;
+		let iterator = (op === 1)?$scope.responses.results:$scope.responses.catalog;
 		for(let a= 0; a < iterator.length; a++){
-			if(data.values.id === iterator[a].id)
-				infoModal = iterator[a];
+		  if(data.values.id === iterator[a].id)
+		   $scope.heroInfo = iterator[a];
 		}
-		showModalInfo();
-		//conectionApi.getInfoHeroById(data.values.id).then(getRowHero).catch(getRowError)
+		showSections(2);
 	}
-
-	function showModalInfo(){
-       $mdDialog.show({
-	      controller: modalController,
-	      templateUrl: 'templates/infoByHero.html',
-	      parent: angular.element(document.body),
-	      clickOutsideToClose:true,
-	      fullscreen: false // Only for -xs, -sm breakpoints.
-	    })
-	    .then(function(answer) {}, function() {});
-	}
-
-	function modalController($scope){
-		$scope.heroInfo = infoModal;
-		console.log(infoModal);
-	}
-
-/*	function getRowError(error){
-		console.log(error);
-	}*/
 
 	function getCatalog(response){
 	  $scope.responses.catalog = response.data.results; 
-	}
-
-	function getErrorCatalog(err){
-	  console.log(err);
 	}
 
 	function getResults(response){
 	  $scope.responses.results = response.data.results;
 	}
 
+	function comicInfo(response){
+		infoModal = response.data.results[0];
+	}
+
 	function getErrors(err){
 	  console.log(err);
+	}
+
+	function showSections(op){
+	  if(op === 1){
+		$scope.responses.showInfoByCharacter = false;
+	 	$scope.responses.showCatalog = true;
+	  } else {
+		$scope.responses.showInfoByCharacter = true;
+	 	$scope.responses.showCatalog = false;
+	  }
+	}
+
+	$scope.showComicById = function(data){
+	 let setId = data.comics.resourceURI;
+		 setId = setId.substr(43,setId.length-43);
+		 conectionApi.getInfoComicById(setId).then(comicInfo).catch(getErrors)
+		$timeout(function(){
+			$mdDialog.show({
+		      controller: modalController,
+		      templateUrl: 'templates/infoByHero.html',
+		      parent: angular.element(document.body),
+		      clickOutsideToClose:true,
+		      fullscreen: false // Only for -xs, -sm breakpoints.
+		    })
+		    .then(function(answer) {}, function() { $scope.comicInfo = {}; });
+		},500);
+	}
+
+	function modalController($scope,$mdDialog,$rootScope) {
+		$scope.comicInfo = {};
+		$scope.comicInfo = infoModal;
+			$scope.comicInfo.price = $scope.comicInfo.prices[0].price;
+		$scope.closeModal = function(){
+		  $scope.comicInfo = {};
+		  $mdDialog.cancel();
+		}
+
+		$scope.addFavourites = function(){
+		 let favBtn = document.getElementById("favourites");
+			 favBtn.classList.remove('addFa');
+			 favBtn.classList.add('addFav');
+			 favBtn = document.getElementById("favouris");
+			 favBtn.classList.remove('iconFa');
+			 favBtn.classList.add('iconFav');
+		 	  data = { id:$scope.comicInfo.id,
+		 	  		   name:$scope.comicInfo.title,
+		 	  		   description:$scope.comicInfo.description,
+		 	  		   photo:$scope.comicInfo.thumbnail.path+"."+$scope.comicInfo.thumbnail.extension,
+		 	  		 };
+//		 	 $rootScope.comicsSaved.push(data);
+//		 	 console.log($rootScope.comicsSaved);
+//		 	localStorage.setItem('comics',$rootScope.comicsSaved);
+		}
+
+	}
+
+	function profileController($scope, $mdDialog){
+
+	}
+	
+	$scope.cancel = function(){
+	  showSections(1);
+	  $scope.comicInfo = {};
+
 	}
 
 })
@@ -62,3 +132,4 @@ angular.module('controllers',[])
 .controller('profileCtrl',function($scope){
 
 })
+}());

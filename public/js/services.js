@@ -40,11 +40,11 @@
   			})
   			return deferred.promise;
   		},
-/*  		getInfoHeroById: function(data){
+  		getInfoComicById: function(data){
   			let deferred = $q.defer();
   			$http({
   			  method: 'GET',
-  			  url: 'https://gateway.marvel.com:443/v1/public/characters/'+data+'/comics?apikey='+getConstants.APITOKEN
+  			  url: 'http://gateway.marvel.com:80/v1/public/comics/'+data+'?apikey='+getConstants.APITOKEN
   			})
   			.then(function(response){
   				deferred.resolve(response.data);
@@ -53,8 +53,7 @@
   				deferred.reject(err.data);
   			})
   			return deferred.promise;
-  		} */
-  	}
+  		}}
   }
 
 }());

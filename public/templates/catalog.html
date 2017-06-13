@@ -1,22 +1,23 @@
   <div class="row begin">
-	<div class="col-md-3 col-lg-3">
+	<div class="col-xs-2 col-md-3 col-lg-3">
 	  <div class="logo size"></div>
 	</div>
-	<div class="col-xs-12 col-md-6 col-lg-6">
+	<div class="col-xs-8 col-md-6 col-lg-6">
 		<md-input-container>
         <label>Busca tu superheroe </label>
         	<input ng-model="responses.search" ng-change="searchHero()" placeholder="P.e Spider-man">
       </md-input-container>
+        <img class="searchIcon" src="../img/icons/search.png">
 	 </div>
-	<div class="col-md-3 col-lg-3">
-	 <div class="profile size"></div>
+	<div class="col-xs-2 col-md-3 col-lg-3">
+	 <div ng-click="showProfile($event)" class="profile size"></div>
 	</div>
   </div>
-  <div ng-repeat="values in responses.results" class="container">
+  <div ng-if="responses.show" ng-repeat="values in responses.results" class="container">
 	  <div class="row" style="display: block">
 		<div class="col-md-3 col-lg-3"></div>
 		<div class="col-xs-12 col-md-6 col-lg-6">
-		  <p class="pSearch" id="{{values.id}}" ng-click="getInfoHeroById(this)">{{values.name}}</p>
+		  <p class="pSearch" id="{{values.id}}" ng-click="getInfoHeroById(this,1)">{{values.name}}</p>
 		 </div>
 		<div class="col-md-3 col-lg-3"></div>
 	  </div>
@@ -24,7 +25,7 @@
   <!-- Init container -->
   <div class="container-fluid">
 	  <div class="row">
-		<div class="col-lg-9 col-md-9 col-xs-12 body">
+		<div class="col-lg-9 col-md-9 col-xs-12 body" ng-show="responses.showCatalog">
 			<div class="row">
 			 <div class="col-lg-9 col-md-9 col-xs-6 body">
 			   <div class="iconHero"></div><h3><b>Characters</b></h3>
@@ -35,7 +36,6 @@
 		        <md-select ng-model="responses.filter" md-selected-text="getSelectedText()">
 		            <md-option ng-value="default" checked>Sort by</md-option>
 		            <md-option ng-value="AZ">Ascendent A-Z</md-option>
-		            <md-option ng-value="ZA">Descendent Z-A</md-option>
 		        </md-select>
 		      </md-input-container>
 			</div>
@@ -50,12 +50,42 @@
 					<p >{{values.description}}</p>
 					<p ng-if="values.description == ''">In this moment this Hero not have an available description yet</p>
 				  </div>
-				  <md-button class="md-raised md-warn btnBG" ng-click="checkHero('{{values.id}}')">View more</md-button>
+				  <md-button class="md-raised md-warn btnBG" id="{{values.id}}" ng-click="getInfoHeroById(this,2)">View more</md-button>
 				  	<h4><b style="padding-left: 6px">Related comics</b></h4>
 				  	<div class="related" ng-repeat="comics in values.comics.items | limitTo:4">{{comics.name}}</div>
 				</div>
 			</div>
 		  </div>
+		<div class="col-lg-9 col-md-9 col-xs-12 body" ng-show="responses.showInfoByCharacter">
+      <div class="row">
+	    <div class="col-lg-12 md-toolbar-tools color">
+	     <h2 class="padding">{{heroInfo.name}}</h2>
+	     <span flex></span>
+	     <md-button class="md-icon-button" ng-click="cancel()">
+	     <img src="../img/icons/btn.png" aria-label="Close Option"/>
+	     </md-button>
+	    </div>
+      </div>
+      <div class="row" style="padding-top: 20px">
+        <div class="col-lg-4 col-md-4">
+          <img class="imgCharacter" src="{{heroInfo.thumbnail.path}}.{{heroInfo.thumbnail.extension}}">
+        </div>
+        <div class="col-lg-8 col-md-8">
+            <div class="md-dialog-content">
+              <h2><b>Description</b></h2>
+              <p>{{heroInfo.description}}</p>
+              <p ng-if="heroInfo.description == '' || heroInfo.description == ' '">In this moment this Hero not have an available description yet</p>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+      <h3 class="padding"><b>Comics available:</b></h3>
+      <p class="padding" ng-if="heroInfo.comics.items.length < 1">Comics not found for this character</p>
+        <div ng-repeat="comics in heroInfo.comics.items" class="col-md-6 col-lg-6 col-xs-6">
+          <p ng-click="showComicById(this)" class="padding"> {{comics.name}} </p>
+        </div>
+      </div>		</div>
+
 		<div class="col-lg-3 col-md-3 col-xs-12 bodyA">
 			<div class="iconFavorites"></div><h3 style="text-align: center"><b>My favourites</b></h3>
 			<div>
@@ -64,6 +94,7 @@
 		</div>
 	  </div>
   	</div>
+
   	<div class="row">
   		<div class="col-md-12 col-lg-12">
   			 <div data-pagination="" data-num-pages="numPages()" 
@@ -71,8 +102,3 @@
 		      data-boundary-links="true"></div>
   		</div>
   	</div>
-	<div>
-		resultados:
-	<div >
-	</div>
-   </div>
