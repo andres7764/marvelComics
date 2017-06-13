@@ -87,10 +87,12 @@
       </div>		</div>
 
 		<div class="col-lg-3 col-md-3 col-xs-12 bodyA">
-			<div class="iconFavorites"></div><h3 style="text-align: center"><b>My favourites</b></h3>
-			<div>
-				
-			</div>
+		 <div class="iconFavorites"></div>
+		 <h3 style="text-align: center"><b>My favourites</b></h3><br>
+		<div ng-repeat="comicsSave in comicsSaved | limitTo:5" class="col-md-offset-2">
+		  <img class="imgModal" src="{{comicsSave.photo}}">
+		  <p>{{comicsSave.name}}</p>
+		</div>
 		</div>
 	  </div>
   	</div>

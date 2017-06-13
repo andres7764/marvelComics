@@ -1,4 +1,3 @@
-
 p {	text-align: justify;}
 .body { background-color: #f7f4f4; }
 .bodyA { background-color: #eceaea; }
@@ -6,42 +5,13 @@ p {	text-align: justify;}
 .color { background: #e02012 !important; color: #fff}
 .logo { background-image: url("/img/grability-logo.png"); }
 .profile { background-image: url("/img/icons/man.png"); }
-.iconHero {
-   background-image: url("/img/icons/characters.png");
-   background-repeat: no-repeat;
-   background-size: 40px 40px;
-   width: 40px;
-   height: 40px;
-   float: left;
-   margin-top: 12px;
-   border: none;
-}
-
-.iconFavorites {
-   background-image: url("/img/icons/favourites.png");
-   background-repeat: no-repeat;
-   background-size: 30px 30px;
-   width: 30px;
-   height: 30px;
-   float: left;
-   margin-top: 17px;
-   border: none;
-}
+.iconHero {background-image: url("/img/icons/characters.png");background-repeat: no-repeat;background-size: 40px 40px;width: 40px;height: 40px;float: left;margin-top: 12px;border: none;}
+.iconFavorites {background-image: url("/img/icons/favourites.png");background-repeat: no-repeat;background-size: 30px 30px;width: 30px;height: 30px;float: left;margin-top: 17px;border: none;}
 .size {background-repeat: no-repeat;background-size: 100%;width: 50px;height: 50px;margin-left: 40%;}
 .body { background-color: }
 .imgCatalog {width: 160px;height: 160px;border-radius: 50%;margin-left: -25px;margin-top:  -10px;box-shadow: 2px 1px 2px 2px rgba(0,0,0,0.3);}
-
 .containerCatalog {margin-left: 40px;background-color: #ffffff;margin-top: 35px;min-height: 300px}
-
-.containerInsideView {
-  float: left;
-  width: 70%;
-  margin-top: -24px;
-  padding-left: 55px;
-  height: 180px;
-  overflow: hidden;
-}
-
+.containerInsideView {float: left;width: 70%;margin-top: -24px;padding-left: 55px;height: 180px;overflow: hidden;}
 .btnBG { background-color: #e02012 !important; left: 160px;}
 .related { width: 50%; float: left; padding: 6px; height: 25px; overflow: hidden;}
 .pSearch { height: 30px; padding: 8px; border-bottom-style: inset;}
@@ -59,6 +29,8 @@ p {	text-align: justify;}
 .iconCart {background-image: url(../img/icons/shopping-cart-primary.png); width: 40px;height: 40px; border-radius: 50%; float: left }
 .iconFav { background-image: url(../img/icons/favourites1.png); width: 40px;height: 40px; border-radius: 50%; float: left }
 .iconFa { background-image: url(../img/icons/btn-favourites-default.png); width: 40px;height: 40px; border-radius: 50%; float: left }
-.closeBtn { background-image: url(../img/icons/btn-close.png); width: 30px;height: 30px; border-radius: 50%; position: absolute;right: 10px;top: 10px }
+.closeBtn { background-image: url(../img/icons/btn-close.png); width: 30px;height: 30px; border-radius: 50%; position: absolute;right: 10px;top: 8px }
 .textDiv { float: left; padding-left: 12px;padding-top: 10; }
 .searchIcon {position: absolute; top: 18px; right: 10px;}
+.delete { background-image: url(../img/icons/btn-delete.png); width: 35px;height: 35px; border-radius: 50%; position: absolute;left: 203px; }
+.other {margin-left: 50px}

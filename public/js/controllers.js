@@ -6,15 +6,14 @@ angular.module('controllers',[])
 	let infoModal;
 
 	$scope.responses = {};
-	$rootScope.comicsSaved = (localStorage.getItem('comics') !== null)? localStorage.getItem('comics') : [];
-	
+	$rootScope.comicsSaved = (localStorage.getItem('comics') !== null)? JSON.parse(localStorage.getItem('comics')) : [];
 	showSections(1);
 	conectionApi.searchCharacters().then(getCatalog).catch(getErrors);
 
 	$scope.showProfile = function(ev){
 	 $mdDialog.show({
       controller: profileController,
-      templateUrl: 'dialog1.tmpl.html',
+      templateUrl: 'templates/profile.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
@@ -26,7 +25,7 @@ angular.module('controllers',[])
 	      $scope.status = 'You cancelled the dialog.';
 	    });
 	}
-
+	
 	$scope.searchHero = function(){
 	  $scope.responses.show = false;
 	  if($scope.responses.search.length > 2) {
@@ -105,22 +104,46 @@ angular.module('controllers',[])
 			 favBtn = document.getElementById("favouris");
 			 favBtn.classList.remove('iconFa');
 			 favBtn.classList.add('iconFav');
-		 	  data = { id:$scope.comicInfo.id,
+		 let data = { id:$scope.comicInfo.id,
 		 	  		   name:$scope.comicInfo.title,
 		 	  		   description:$scope.comicInfo.description,
 		 	  		   photo:$scope.comicInfo.thumbnail.path+"."+$scope.comicInfo.thumbnail.extension,
 		 	  		 };
-//		 	 $rootScope.comicsSaved.push(data);
-//		 	 console.log($rootScope.comicsSaved);
-//		 	localStorage.setItem('comics',$rootScope.comicsSaved);
+		 	 $rootScope.comicsSaved.push(data);
+		 	 localStorage.setItem('comics',JSON.stringify($rootScope.comicsSaved));
 		}
-
 	}
 
-	function profileController($scope, $mdDialog){
+	function profileController($scope, $mdDialog, $rootScope){
+		$scope.comicsSaved = $rootScope.comicsSaved;
 
+		$scope.deleteComic = function(data){
+			console.log(data);
+			confirmDeleteComic(data);
+		}
+		$scope.closeModal = function(){$mdDialog.cancel();}
+		
+		function confirmDeleteComic(data){
+		 var confirm = $mdDialog.confirm()
+	          .title('Confirm')
+	          .textContent('Are you sure to delete this comic')
+	          .ariaLabel('delete')
+	          .ok('yes ')
+	          .cancel('no');
+
+		    $mdDialog.show(confirm).then(function() {
+		      searchAndDestroy(data);
+		    }, function() {});
+		}
+		function searchAndDestroy(id){
+			for(var a= 0; a < $scope.comicsSaved.length;a++){
+			  if($scope.comicsSaved[a].id === id)
+			  	$scope.comicsSaved.splice(a,1);
+			}
+			$rootScope.comicsSaved = $scope.comicsSaved;
+		}
 	}
-	
+
 	$scope.cancel = function(){
 	  showSections(1);
 	  $scope.comicInfo = {};
@@ -129,7 +152,4 @@ angular.module('controllers',[])
 
 })
 
-.controller('profileCtrl',function($scope){
-
-})
 }());

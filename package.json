@@ -1,11 +1,17 @@
 {
-	"name": "MarvelSearcEengine",
-	"author":"Andrés Valenzuela",
-	"Description": "SPA for search easy the comics of your favorite's heroes",
-	"script": {
-		"start":"nodejs index.js"
-	},
-	"dependencies": {
-	  "express": "*"
-	}
+  "name": "MarvelSearcEengine",
+  "author": "Andrés Valenzuela",
+  "Description": "SPA for search easy the comics of your favorite's heroes",
+  "script": {
+    "start": "nodejs index.js",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "express": "*"
+  },
+  "devDependencies": {
+    "karma": "^1.7.0",
+    "karma-cli": "^1.0.1",
+    "mocha": "^3.4.2"
+  }
 }

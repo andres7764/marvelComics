@@ -1,0 +1,21 @@
+<md-dialog aria-label="My profile">
+    <md-toolbar>
+      <div class="closeBtn" ng-click="closeModal()"></div>
+      <div class="md-toolbar-tools">
+        <h2>My saved comics</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+       <div class="row">
+        <div ng-repeat="comicsSave in comicsSaved" class="col-lg-4 col-md-4 col-xs-12" >
+          <div id="{{comicsSave.id}}" class="delete" ng-click="deleteComic(comicsSave.id)"></div>
+          <img class="imgModal" src="{{comicsSave.photo}}">
+          <p>{{comicsSave.name}}</p>
+        </div>
+       </div>
+      </div>
+    </md-dialog-content>
+</md-dialog>

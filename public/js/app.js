@@ -8,17 +8,11 @@
     	.accentPalette('orange');
 
 	$routeProvider
-	.when('/',{
-		templateUrl: './templates/catalog.html',
-		controller: 'catalogCtrl',
-		controllerAs: 'catalog'
-	})
-	.when('profile',{
-		templateUrl: './templates/profiile.html',
-		controller: 'profileCtrl',
-		controllerAs: 'profile'
-	})
-
+		.when('/',{
+			templateUrl: './templates/catalog.html',
+			controller: 'catalogCtrl',
+			controllerAs: 'catalog'
+		})
 	}])
 
 }());
