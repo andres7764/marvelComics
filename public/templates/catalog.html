@@ -81,17 +81,17 @@
       <div class="row">
       <h3 class="padding"><b>Comics available:</b></h3>
       <p class="padding" ng-if="heroInfo.comics.items.length < 1">Comics not found for this character</p>
-        <div ng-repeat="comics in heroInfo.comics.items" class="col-md-6 col-lg-6 col-xs-6">
-          <p ng-click="showComicById(this)" class="padding"> {{comics.name}} </p>
+        <div ng-repeat="comic in heroInfo.comics.items" class="col-md-6 col-lg-6 col-xs-6">
+          <p ng-click="showComicById(this)" class="padding"> {{comic.name}} </p>
         </div>
       </div>		</div>
 
 		<div class="col-lg-3 col-md-3 col-xs-12 bodyA">
 		 <div class="iconFavorites"></div>
 		 <h3 style="text-align: center"><b>My favourites</b></h3><br>
-		<div ng-repeat="comicsSave in comicsSaved | limitTo:5" class="col-md-offset-2">
-		  <img class="imgModal" src="{{comicsSave.photo}}">
-		  <p>{{comicsSave.name}}</p>
+		<div ng-repeat="comicsSav in comicsSaved | limitTo:5 track by $index" class="col-md-offset-2">
+		  <img class="imgModal" src="{{comicsSav.photo}}">
+		  <p>{{comicsSav.name}}</p>
 		</div>
 		</div>
 	  </div>

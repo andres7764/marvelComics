@@ -73,7 +73,7 @@ angular.module('controllers',[])
 	}
 
 	$scope.showComicById = function(data){
-	 let setId = data.comics.resourceURI;
+	 let setId = data.comic.resourceURI;
 		 setId = setId.substr(43,setId.length-43);
 		 conectionApi.getInfoComicById(setId).then(comicInfo).catch(getErrors)
 		$timeout(function(){
@@ -91,7 +91,7 @@ angular.module('controllers',[])
 	function modalController($scope,$mdDialog,$rootScope) {
 		$scope.comicInfo = {};
 		$scope.comicInfo = infoModal;
-			$scope.comicInfo.price = $scope.comicInfo.prices[0].price;
+		$scope.comicInfo.price = $scope.comicInfo.prices[0].price;
 		$scope.closeModal = function(){
 		  $scope.comicInfo = {};
 		  $mdDialog.cancel();
@@ -118,7 +118,6 @@ angular.module('controllers',[])
 		$scope.comicsSaved = $rootScope.comicsSaved;
 
 		$scope.deleteComic = function(data){
-			console.log(data);
 			confirmDeleteComic(data);
 		}
 		$scope.closeModal = function(){$mdDialog.cancel();}
